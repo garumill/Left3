@@ -46,7 +46,9 @@
                <div class="mail-check-box">
             <input class="mail-check-input" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">
             </div>
-               <span id="mail-check-warn"></span>
+            <div>
+            	<span id="mail-check-warn"></span>
+            </div>  
          휴대전화<br> 
          <input type="text" name="phone" placeholder="010-****-****"><br> <br> <br> <br>
          <input type="submit" value="제출">
@@ -66,11 +68,17 @@
 	      const checkInput = $('.mail-check-input'); // 인증번호 입력하는곳 
 	
 	      $.ajax({
-	          
-	          type:"GET",
-	          url:"mailCheck?email=" + email
-	                  
-	      });
+	    	    type: "GET",
+	    	    url: "mailCheck?email=" + email,
+	    	    success: function(data) {
+	    	        checkInput.attr('disabled', false);
+	    	        code = data;
+	    	        alert('인증번호가 전송되었습니다.');
+	    	    },
+	    	    error: function(xhr, status, error) {
+	    	        console.error("오류 발생:", status, error);
+	    	    }
+	    	});
 	   });
 	
 	   // 인증번호 비교 
@@ -78,12 +86,11 @@
 	      const inputCode = $(this).val();
 	      const $resultMsg = $('#mail-check-warn');
 	
-	      if (inputCode === code) {
+	      if (inputCode == code) {
 	         $resultMsg.html('인증번호가 일치합니다.');
 	         $resultMsg.css('color', 'green');
 	         $('#mail-Check-Btn').attr('disabled', true);
-	         $('#user_email').attr('readonly', true);
-	         $('#email_address').attr('readonly', true);
+	         $('#totalemail').attr('readonly', true);
 	      } else {
 	         $resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요!.');
 	         $resultMsg.css('color', 'red');
