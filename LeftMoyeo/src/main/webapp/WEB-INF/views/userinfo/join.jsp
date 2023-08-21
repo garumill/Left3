@@ -70,14 +70,12 @@
 	      $.ajax({
 	    	    type: "GET",
 	    	    url: "mailCheck?email=" + email,
-	    	    success: function(data) {
-	    	        checkInput.attr('disabled', false);
-	    	        code = data;
-	    	        alert('인증번호가 전송되었습니다.');
-	    	    },
-	    	    error: function(xhr, status, error) {
-	    	        console.error("오류 발생:", status, error);
-	    	    }
+	    	    success : function (data) {
+					console.log("data : " +  data);
+					checkInput.attr('disabled',false);
+					code =data;
+					alert('인증번호가 전송되었습니다.')
+				}		
 	    	});
 	   });
 	
@@ -106,8 +104,6 @@
             $("#totalemail").val(fullEmail);
          }
       };
-
-    
    </script>
 </body>
 </html>
