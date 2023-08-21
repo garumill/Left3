@@ -22,7 +22,12 @@ public class UserinfoServiceImpl implements UserinfoService {
 		userinfoDAO.insertUserinfo(userinfo);
 	}
 	
-	
+	//아이디 검사 
+	@Override
+	public int idCheck(String id) throws Exception {
+		return userinfoDAO.idCheck(id);
+	}
+
 	/*마이페이지*/
 	
 	//회원정보 변경

@@ -7,7 +7,7 @@ import com.moyeo.dto.Userinfo;
 public interface UserinfoMapper {
 	//회원가입
 	int insertUserinfo(Userinfo userinfo);//회원정보삽입(회원가입)
-	int idCount(String id);//아이디 중복검사
+	int idCheck(String id);//아이디 중복검사
 	
 	//로그인
 	Userinfo userinfoLogin(Userinfo userinfo);//로그인 

@@ -7,6 +7,7 @@ import com.moyeo.exception.UserinfoNotFoundException;
 public interface UserinfoService {
 	//회원가입
 	void registerUser(Userinfo userinfo) throws ExistsUserinfoException;//회원정보삽입(회원가입)
+	int idCheck(String id) throws Exception;//아이디 검사
 	
 	//마이페이지
 	void modifyUserinfo(Userinfo userinfo) throws UserinfoNotFoundException;//회원정보변경

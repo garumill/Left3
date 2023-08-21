@@ -21,6 +21,12 @@ public class UserinfoDAOImpl implements UserinfoDAO {
 		return sqlSession.getMapper(UserinfoMapper.class).insertUserinfo(userinfo);
 	}
 	
+	//아이디 중복검사
+	@Override
+	public int idCheck(String id) {
+		return sqlSession.getMapper(UserinfoMapper.class).idCheck(id);
+	}
+	
 	
 	@Override
 	public Userinfo userinfoLogin(Userinfo userinfo) {
@@ -71,5 +77,7 @@ public class UserinfoDAOImpl implements UserinfoDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
+
+
 }
