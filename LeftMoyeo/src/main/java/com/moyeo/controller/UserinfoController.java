@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -74,14 +76,10 @@ public class UserinfoController {
 		}
 	} // memberIdChkPOST() 종료
 
-	// 주소
-	@RequestMapping(value = "/address", method = RequestMethod.POST)
-	public String signUp(Userinfo userinfo, Model model) throws Exception {
-		String address = userinfo.getAddress();
-		userinfo.setAddress(address);
-		return "redirect:/join";
-	}
-
+	
+	
+	
+	
 	// 이메일 인증
 	@GetMapping("/mailCheck")
 	@ResponseBody
@@ -90,19 +88,19 @@ public class UserinfoController {
 		System.out.println("이메일 인증 이메일 : " + email);
 		return mailService.joinEmail(email);
 	}
-	
+
 	/* 로그인 */
-	
+
 	// 로그인 페이지 이동
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginGET() {
 		return "userinfo/login";
 	}
 
-	//로그인
+	// 로그인
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@ModelAttribute Userinfo userinfo, HttpSession session) throws Exception {
-		Userinfo authUserinfo=userinfoservice.userLogin(userinfo);
+		Userinfo authUserinfo = userinfoservice.userLogin(userinfo);
 		session.setAttribute("loginUserinfo", authUserinfo);
 		return "userinfo/main";
 	}

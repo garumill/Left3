@@ -2,6 +2,7 @@ package com.moyeo.service;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.moyeo.dao.UserinfoDAO;
 import com.moyeo.dto.Userinfo;
@@ -28,6 +29,7 @@ public class UserinfoServiceImpl implements UserinfoService {
 		return userinfoDAO.idCheck(id);
 	}
 
+
 	/* 로그인 */
 	@Override
 	public Userinfo userLogin(Userinfo userinfo) throws LoginAuthFailException {
@@ -49,7 +51,11 @@ public class UserinfoServiceImpl implements UserinfoService {
 		// 매개변수로 전달받은 회원정보의 아이디로 검색된 회원정보 반환
 		return authUserinfo;
 	}
-
+	
+	
+	
+	
+	
 	/* 마이페이지 */
 
 	// 회원정보 변경
@@ -63,5 +69,4 @@ public class UserinfoServiceImpl implements UserinfoService {
 	public void removeUserinfo(String userid) {
 		userinfoDAO.outUser(userid);
 	}
-
 }

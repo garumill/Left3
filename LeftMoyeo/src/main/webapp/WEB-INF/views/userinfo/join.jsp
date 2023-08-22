@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,7 +26,7 @@
    </section>
 
    <section>
-      <form name="login" action="join" method="post">
+      <form id="form" name="login" action="join" method="post">
          아이디<br> 
          <input type="text" class="id_input" name="id" placeholder="아이디 입력"><br>
 		 <span class="id_input_re_1">사용 가능한 아이디입니다.</span>
@@ -43,16 +42,17 @@
          생년월일<br> 
          <input type="text" name="birth" placeholder="2000-01-01"><br> <br> 
          
-         우편번호<br>
-         <input type="text" id="sample4_postcode" placeholder="우편번호">
-		 <input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-		 <input type="text" id="sample4_roadAddress" placeholder="도로명주소" size="60" ><br>
-		 <input type="hidden" id="sample4_jibunAddress" placeholder="지번주소"  size="60">
-		 <span id="guide" style="color:#999;display:none"></span>
-		 <input type="text" id="sample4_detailAddress" placeholder="상세주소"  size="60"><br>
-		 <input type="hidden" id="sample4_extraAddress" placeholder="참고항목"  size="60">
-		 <input type="hidden" id="sample4_engAddress" placeholder="영문주소"  size="60" ><br>
          
+         우편번호<br>
+         <input type="text" id="postcode" placeholder="우편번호">
+         <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
+         <input type="text" id="roadAddress" placeholder="도로명주소" size="60"><br>
+         <input type="hidden" id="jibunAddress" placeholder="지번주소" size="60">
+         <span id="guide" style="color:#999;display:none"></span>
+         <input type="text"  id="detailAddress" placeholder="상세주소" size="60"><br>
+         <input type="hidden" id="extraAddress" placeholder="참고항목" size="60">
+      	 <input type="hidden" id="engAddress" placeholder="영문주소" size="60"><br>
+         <input type="hidden" id="totaladdress" name="address" value=""> <br>
          
          성별<br> 
          <label for="man">남자</label> 
@@ -87,6 +87,40 @@
    </section>
 
    <script>
+	 //주소 합성 및 설정 함수
+	   function address() {
+	    const postnum = $("#postcode").val();
+	    const roadname = $("#roadAddress").val();
+	    const detailaddress = $("#jibunAddress").val();
+	
+	    if(postnum != "" && roadname != "" && detailaddress != "") {
+	           const fullAddress = "우편번호 " + postnum + ", 주소 " + roadname + " " + detailaddress;
+	         $("#totaladdress").val(fullAddress);
+	       }
+	   };
+	   
+	   document.getElementById('form').addEventListener('submit', function(event) {
+		   event.preventDefault(); // 폼 제출 동작 막기
+	       address(); // 주소 합성 함수 호출
+			
+	       // 이제 서버로 데이터를 전송하거나 추가적인 작업을 수행할 수 있습니다.
+	       this.submit(); // 폼 제출
+	   });
+
+	   
+	   /*
+	   이메일 주소 합성 및 설정 함수
+	      function email() {
+	         const userEmail = $("#user_email").val();
+	         const address = $("#email_address").val();
+	         if (userEmail != "" && address != "") {
+	            const fullEmail = userEmail + "@" + address;
+	            $("#totalemail").val(fullEmail);
+	         }
+	      };
+	   */
+	   
+	   
    	   /* 아이디 중복검사 */
    	   
    	   //아이디 중복검사
@@ -98,7 +132,7 @@
 	
 			$.ajax({
 				type : "post",
-				url : "/testmoyeo/user/memberIdChk", 
+				url : "/left/user/memberIdChk", 
 				data : data,
 				success : function(result){
 					//console.log("성공 여부" + result);
@@ -187,7 +221,7 @@
     /*주소 API*/
       
      //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
-    function sample4_execDaumPostcode() {
+   function execDaumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {
                 // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
@@ -212,17 +246,17 @@
                 }
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('sample4_postcode').value = data.zonecode;
-                document.getElementById("sample4_roadAddress").value = roadAddr;
-                document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
+                document.getElementById('postcode').value = data.zonecode;
+                document.getElementById("roadAddress").value = roadAddr;
+                document.getElementById("jibunAddress").value = data.jibunAddress;
          
-                document.getElementById("sample4_engAddress").value = data.addressEnglish;
+                document.getElementById("engAddress").value = data.addressEnglish;
                        
                 // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
                 if(roadAddr !== ''){
-                    document.getElementById("sample4_extraAddress").value = extraRoadAddr;
+                    document.getElementById("extraAddress").value = extraRoadAddr;
                 } else {
-                    document.getElementById("sample4_extraAddress").value = '';
+                    document.getElementById("extraAddress").value = '';
                 }
 
                 var guideTextBox = document.getElementById("guide");
@@ -234,7 +268,7 @@
 
                 } else if(data.autoJibunAddress) {
                     var expJibunAddr = data.autoJibunAddress;
-                    guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                    guideTextBox.innerHTML = '(예상 지번 x`주소 : ' + expJibunAddr + ')';
                     guideTextBox.style.display = 'block';
                 } else {
                     guideTextBox.innerHTML = '';
@@ -242,7 +276,7 @@
                 }
             }
         }).open();
-    }
+      }
    </script>
 </body>
 </html>
