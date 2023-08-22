@@ -27,8 +27,8 @@ public class ExceptionController {
 	@ExceptionHandler(value = LoginAuthFailException.class)
 	public String loginAuthFailExceptionHandler(LoginAuthFailException exception, Model model) {
 		model.addAttribute("message", exception.getMessage());
-		model.addAttribute("userid", exception.getUserid());
-		return "userinfo/user_login";
+		model.addAttribute("userid", exception.getId());
+		return "userinfo/main";
 	}
 	
 	@ExceptionHandler(value = UserinfoNotFoundException.class)

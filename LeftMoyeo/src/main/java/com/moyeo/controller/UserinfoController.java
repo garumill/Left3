@@ -2,6 +2,7 @@ package com.moyeo.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -60,19 +62,18 @@ public class UserinfoController {
 	@ResponseBody
 	public String memberIdChkPOST(String id) throws Exception {
 
-		//logger.info("memberIdChk() 진입");
+		// logger.info("memberIdChk() 진입");
 		int result = userinfoservice.idCheck(id);
-		
-		//logger.info("결과값 = " + result);
-		
-		if(result != 0) {
-			return "fail";	// 중복 아이디가 존재
+
+		// logger.info("결과값 = " + result);
+
+		if (result != 0) {
+			return "fail"; // 중복 아이디가 존재
 		} else {
-			return "success";	// 중복 아이디 x
-		}	
+			return "success"; // 중복 아이디 x
+		}
 	} // memberIdChkPOST() 종료
 
-	
 	// 주소
 	@RequestMapping(value = "/address", method = RequestMethod.POST)
 	public String signUp(Userinfo userinfo, Model model) throws Exception {
@@ -89,10 +90,20 @@ public class UserinfoController {
 		System.out.println("이메일 인증 이메일 : " + email);
 		return mailService.joinEmail(email);
 	}
-
+	
+	/* 로그인 */
+	
 	// 로그인 페이지 이동
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public void loginGET() {
-		logger.info("로그인 페이지 진입");
+	public String loginGET() {
+		return "userinfo/login";
+	}
+
+	//로그인
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login(@ModelAttribute Userinfo userinfo, HttpSession session) throws Exception {
+		Userinfo authUserinfo=userinfoservice.userLogin(userinfo);
+		session.setAttribute("loginUserinfo", authUserinfo);
+		return "userinfo/main";
 	}
 }

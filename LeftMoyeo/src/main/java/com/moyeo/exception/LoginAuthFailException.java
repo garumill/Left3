@@ -10,14 +10,14 @@ public class LoginAuthFailException extends Exception {
 	//예외처리에 필요한 값을 저장하기 위한 필드
 	// -> 사용자로부터 입력받은 아이디를 저장하기 위한 필드
 	@Getter
-	private String userid;
+	private String id;
 	
 	public LoginAuthFailException() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public LoginAuthFailException(String message, String userid) {
+	public LoginAuthFailException(String message, String id) {
 		super(message);
-		this.userid=userid;
+		this.id=id;
 	}
 }
