@@ -28,19 +28,19 @@
    <section>
       <form id="form" name="login" action="join" method="post">
          아이디<br> 
-         <input type="text" class="id_input" name="id" placeholder="아이디 입력"><br>
+         <input type="text" class="id_input" name="id" placeholder="아이디 입력" required><br>
 		 <span class="id_input_re_1">사용 가능한 아이디입니다.</span>
 		 <span class="id_input_re_2">아이디가 이미 존재합니다.</span>
        	 <br>
          비밀번호<br> 
-         <input type="password" name="pw" id="pw"><br>
+         <input type="password" name="pw" id="pw" required><br>
          비밀번호 재확인<br>
          <input type="password" id="pwConfirm" onkeyup="passConfirm()">
          <span id="confirmMsg"></span> <br>
          이름<br> 
-         <input type="text" name="name" value=""> <br>
+         <input type="text" name="name" value="" required> <br>
          생년월일<br> 
-         <input type="text" name="birth" placeholder="2000-01-01"><br> <br> 
+         <input type="text" name="birth" placeholder="2000-01-01" required><br> <br> 
          
          
          우편번호<br>
@@ -60,7 +60,7 @@
          <label for="woman">여자</label> 
          <input type="radio" name="gender" value="f" id="woman"> <br> <br>
          
-         <h3>이메일</h3>
+         이메일<br>
          <input type="text" id="user_email" required>
          <span id="middle">@</span>
          <input type="text" id="email_address" list="user_email_address">
@@ -81,7 +81,7 @@
             	<span id="mail-check-warn"></span>
             </div>  
          휴대전화<br> 
-         <input type="text" name="phone" placeholder="010-****-****"><br> <br> <br> <br>
+         <input type="text" name="phone" placeholder="010-****-****" required><br> <br> <br> <br>
          <input type="submit" value="제출">
       </form>
    </section>
@@ -132,7 +132,7 @@
 	
 			$.ajax({
 				type : "post",
-				url : "/left/user/memberIdChk", 
+				url : "/testmoyeo/user/memberIdChk", 
 				data : data,
 				success : function(result){
 					//console.log("성공 여부" + result);

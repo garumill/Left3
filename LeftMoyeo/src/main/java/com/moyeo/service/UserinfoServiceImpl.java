@@ -34,6 +34,12 @@ public class UserinfoServiceImpl implements UserinfoService {
         return userinfoDAO.userinfoLogin(userinfo);
     }
 	
+    //마지막 로그인 시간
+    @Override
+    public void updateUserLogindate(String id) {
+       userinfoDAO.updateLogdate(id);
+    }
+
 	
 	/*마이페이지*/
 	
