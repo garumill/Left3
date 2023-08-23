@@ -46,7 +46,7 @@
 	<select id="userinfoLogin" resultType="Userinfo">
 		SELECT *
 		FROM userinfo
-		WEHRE id=#{id} and pw = #{pw}
+		WHERE id=#{id} and pw = #{pw}
 	</select>
 	
 	

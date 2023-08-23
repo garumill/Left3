@@ -11,6 +11,7 @@ public interface UserinfoMapper {
 	
 	//로그인
 	Userinfo userinfoLogin(Userinfo userinfo);//로그인 
+	
 	int updateLogdate(String id);//로그인 시간 변경
 	int updateUserToRest(String id);//휴면계정전환
 	

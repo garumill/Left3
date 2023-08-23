@@ -1,24 +1,20 @@
 package com.moyeo.controller;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.moyeo.dto.Userinfo;
 import com.moyeo.service.MailSendService;
@@ -76,10 +72,6 @@ public class UserinfoController {
 		}
 	} // memberIdChkPOST() 종료
 
-	
-	
-	
-	
 	// 이메일 인증
 	@GetMapping("/mailCheck")
 	@ResponseBody
@@ -97,11 +89,31 @@ public class UserinfoController {
 		return "userinfo/login";
 	}
 
-	// 로그인
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@ModelAttribute Userinfo userinfo, HttpSession session) throws Exception {
-		Userinfo authUserinfo = userinfoservice.userLogin(userinfo);
-		session.setAttribute("loginUserinfo", authUserinfo);
+	public String loginPOST(HttpServletRequest request, Userinfo userinfo, RedirectAttributes rttr) throws Exception {
+
+		// System.out.println("login 메서드 진입");
+		// System.out.println("전달된 데이터 : " + userinfo);
+
+		HttpSession session = request.getSession();
+		Userinfo lto = userinfoservice.userLogin(userinfo);
+
+		if (lto == null) { // 일치하지 않는 아이디, 비밀번호 입력 경우
+
+			int result = 0;
+			rttr.addFlashAttribute("result", result);
+			return "redirect:/user/login";
+
+		}
+
+		session.setAttribute("userinfo", lto); // 일치하는 아이디, 비밀번호 경우 (로그인 성공)
+		return "redirect:/user/main";
+
+	}
+	
+	/* 메인페이지 이동 */
+	@RequestMapping(value = "/main", method = RequestMethod.GET)
+	public String mainGET() {
 		return "userinfo/main";
 	}
 }

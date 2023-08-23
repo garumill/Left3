@@ -30,8 +30,7 @@ public class UserinfoDAOImpl implements UserinfoDAO {
 	
 	@Override
 	public Userinfo userinfoLogin(Userinfo userinfo) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.getMapper(UserinfoMapper.class).userinfoLogin(userinfo);
 	}
 
 	@Override

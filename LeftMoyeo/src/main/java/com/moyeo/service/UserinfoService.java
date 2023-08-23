@@ -11,7 +11,7 @@ public interface UserinfoService {
 	int idCheck(String id) throws Exception;//아이디 검사
 	
 	//로그인
-	Userinfo userLogin(Userinfo userinfo) throws LoginAuthFailException;
+	Userinfo userLogin(Userinfo userinfo) throws LoginAuthFailException;//로그인
 	
 	//마이페이지
 	void modifyUserinfo(Userinfo userinfo) throws UserinfoNotFoundException;//회원정보변경
